@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code Scanner with Visual Feedback</title>
     <style>
-        body {
+body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #F5F5F5;
             margin: 0;
@@ -94,7 +94,7 @@
             flex-direction: column;
             align-items: center;
         }
-        .account-buttons .button {
+        .account-buttons.button {
             margin-bottom: 10px;
         }
         #reader {
@@ -103,6 +103,10 @@
             max-width: 500px;
             height: auto;
             margin: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         #qr-highlight {
             position: absolute;
@@ -117,13 +121,18 @@
             justify-content: center;
             margin-top: 20px;
         }
-        .scan-options .button {
+        .scan-options.button {
             background-color: #FFCA28;
             color: #4B0E6D;
         }
-        .scan-options .button:hover {
+        .scan-options.button:hover {
             background-color: #4B0E6D;
             color: white;
+        }
+        #scan-result {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 20px;
         }
         @media (max-width: 768px) {
             .header h1 {
@@ -140,23 +149,6 @@
             .button {
                 font-size: 0.9em;
                 padding: 8px 16px;
-            }
-        }
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1em;
-            }
-            .header img {
-                width: 25px;
-                height: 25px;
-            }
-            .header a {
-                font-size: 0.8em;
-                margin-left: 5px;
-            }
-            .button {
-                font-size: 0.8em;
-                padding: 6px 12px;
             }
         }
     </style>
@@ -180,6 +172,7 @@
             <p>Empowering Healthy Choices with Every Scan</p>
             <div id="reader"></div>
             <div id="qr-highlight"></div>
+            <div id="scan-result" style="margin-top: 20px;"></div>
         </div>
     </div>
 
@@ -203,6 +196,11 @@
             highlight.classList.add('success');
             highlight.style.display = 'block';
             console.log(`Scan result: ${decodedText}`, decodedResult);
+
+            // Display the scanned result on the page
+            const scanResultElement = document.getElementById('scan-result');
+            scanResultElement.innerHTML = `<strong>Scanned Data:</strong> ${decodedText}`;
+
             setTimeout(() => {
                 highlight.style.display = 'none';
                 highlight.classList.remove('success');

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Scanner with Visual Feedback</title>
+    <title>QR Code Scanner with Nutritional Evaluation</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -45,16 +45,16 @@
         .header a:hover {
             color: #FFCA28;
         }
-         .content h2{
-             background-color: white;
-             border: 2px solid #000000;
-              border-radius: 15px;
-              padding: 20px;
-              margin-bottom: 20px;
-              text-align: center;
-              box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-              display: inline-block;
-}
+        .content h2 {
+            background-color: white;
+            border: 2px solid #000000;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
         .container {
             display: flex;
             flex-direction: column;
@@ -162,7 +162,7 @@
     </div>
     <div class="container">
         <div>
-            <button class="button" onclick="navigateTo('index.html')">Home</button>
+            <button class="button" onclick="navigateTo('Ncal.html')">Home</button>
         </div>
         <div class="content">
             <h2>QR Code Scanner</h2>
@@ -250,17 +250,31 @@
         }
 
         function parseNutritionalInfo(text) {
-            
-            return {
-                calories: 250,
-                fat: 10,
-                protein: 5,
-                carbohydrates: 30
-            };
+            // Implement your parsing logic here to extract nutritional information from the scanned text
+            // Example: Assuming a simple structure like "Calories: 250, Fat: 10g, Protein: 5g, Carbohydrates: 30g"
+            const regex = /(?:Calories:\s*(\d+)\s*,\s*)?(?:Fat:\s*(\d+)\s*g\s*,\s*)?(?:Protein:\s*(\d+)\s*g\s*,\s*)?(?:Carbohydrates:\s*(\d+)\s*g)?/;
+            const match = text.match(regex);
+            if (match) {
+                return {
+                    calories: parseInt(match[1]) || 0,
+                    fat: parseInt(match[2]) || 0,
+                    protein: parseInt(match[3]) || 0,
+                    carbohydrates: parseInt(match[4]) || 0
+                };
+            } else {
+                return {
+                    calories: 'Data not found',
+            fat: 'Data not found',
+            protein: 'Data not found',
+            carbohydrates: 'Data not found'
+                    
+                };
+            }
         }
 
         function evaluateNutritionalInfo(info) {
-            
+            // Implement your evaluation logic here
+            // Example: Very basic evaluation based on calorie and fat content
             if (info.calories > 500) {
                 return 'High calorie content';
             } else if (info.fat > 20) {

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ncal Login</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F5F5F5;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .header {
+            background-color: #4B0E6D;
+            color: #ffffff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .header h1 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            font-size: 1.5em;
+        }
+        .header img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+        .header a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 1em;
+            transition: color 0.3s;
+        }
+        .header a:hover {
+            color: #FFCA28;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            padding: 10px;
+        }
+        .mobile-frame-container {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px;
+            width: 100%;
+            max-width: 375px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .phone-frame {
+            width: 100%;
+            height: auto;
+            background: url("https://via.placeholder.com/375x667") no-repeat center center;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            padding: 20px;
+        }
+        .mobile-container {
+            background-color: rgba(70, 0, 107, 0.9);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            border-radius: 20px;
+        }
+        .headline {
+            font-size: 2em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .highlight {
+            color: #FFCA28;
+        }
+        .input-container {
+            margin-bottom: 20px;
+        }
+        .input-container input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .button {
+            background-color: white;
+            color: #4B0E6D;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.2em;
+            width: 100%;
+            max-width: 200px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s, color 0.3s, transform 0.3s;
+        }
+        .button:hover {
+            background-color: #FFCA28;
+            color: #4B0E6D;
+            transform: translateY(-3px);
+        }
+        .social-login {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .social-login button {
+            background-color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 15px;
+            cursor: pointer;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s, transform 0.3s;
+            width: 50px;
+            height: 50px;
+        }
+        .social-login button:hover {
+            transform: translateY(-3px);
+        }
+        .social-login button i {
+            color: #4B0E6D;
+        }
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.2em;
+            }
+            .header img {
+                width: 30px;
+                height: 30px;
+            }
+            .header a {
+                font-size: 0.9em;
+                margin-left: 10px;
+            }
+            .headline {
+                font-size: 1.5em;
+            }
+            .button {
+                font-size: 1em;
+                padding: 10px 20px;
+            }
+        }
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1em;
+            }
+            .header img {
+                width: 25px;
+                height: 25px;
+            }
+            .header a {
+                font-size: 0.8em;
+                margin-left: 5px;
+            }
+            .headline {
+                font-size: 1.2em;
+            }
+            .button {
+                font-size: 0.8em;
+                padding: 8px 16px;
+            }
+            .social-login button {
+                font-size: 1em;
+                padding: 10px;
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>
+            <img src="C:/Users/mohid/OneDrive/Desktop/Ncal.jpg" alt="Ncal Logo">
+            Ncal
+        </h1>
+    </div>
+    <div class="container">
+        <div class="mobile-frame-container">
+            <div class="phone-frame">
+                <div class="mobile-container">
+                    <div class="headline">
+                        Login to Ncal<br>
+                        <span class="highlight">Welcome Back!</span>
+                    </div>
+                    <div class="input-container">
+                        <input type="text" id="username" placeholder="Username">
+                    </div>
+                    <div class="input-container">
+                        <input type="password" id="password" placeholder="Password">
+                    </div>
+                    <button class="button" onclick="validateLogin()">Login</button>
+                    <div class="social-login">
+                        <button onclick="loginWithGoogle()">
+                            <i class="fab fa-google"></i>
+                        </button>
+                        <button onclick="loginWithFacebook()">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+                        <button onclick="loginWithTwitter()">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function validateLogin() {
+            var username = document.getElementById('username').value.trim();
+            var password = document.getElementById('password').value.trim();
+
+            // Basic validation
+            if (username === '') {
+                alert('Please enter your username.');
+                return;
+            }
+            if (password === '') {
+                alert('Please enter your password.');
+                return;
+            }
+
+            // Mock login logic (replace with actual authentication logic)
+            if (username === 'user' && password === 'password') {
+                alert('Logged in successfully!');
+                // Redirect to dashboard or another page
+                // Example:
+                window.location.href = 'dashboard.html';
+            } else {
+                alert('Invalid username or password. Please try again.');
+            }
+        }
+
+        function loginWithGoogle() {
+            window.location.href = "https://accounts.google.com/signin/v2/identifier";
+        }
+
+        function loginWithFacebook() {
+            window.location.href = "https://www.facebook.com/login/";
+        }
+
+        function loginWithTwitter() {
+            window.location.href = "https://twitter.com/login";
+        }
+    </script>
+</body>
+</html>

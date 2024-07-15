@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code Scanner with Visual Feedback</title>
     <style>
-body {
+        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #F5F5F5;
             margin: 0;
             display: flex;
             flex-direction: column;
             height: 100vh;
-            overflow: hidden;
+            overflow: auto;
         }
         .header {
             background-color: #4B0E6D;
@@ -45,23 +45,24 @@ body {
         .header a:hover {
             color: #FFCA28;
         }
+         .content h2{
+             background-color: white;
+             border: 2px solid #000000;
+              border-radius: 15px;
+              padding: 20px;
+              margin-bottom: 20px;
+              text-align: center;
+              box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+              display: inline-block;
+}
         .container {
             display: flex;
             flex-direction: column;
             flex-grow: 1;
+            margin: auto;
             padding: 20px;
             overflow-y: auto;
             align-items: center;
-        }
-        .sidebar {
-            background-color: #fff;
-            border-right: 1px solid #ddd;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 250px;
         }
         .content {
             flex-grow: 1;
@@ -74,11 +75,11 @@ body {
         .button {
             background-color: white;
             color: #4B0E6D;
-            padding: 10px 20px;
+            padding: 15px 25px;
             border: none;
-            border-radius: 5px;
+            border-radius: 25px;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 1.2em;
             width: 100%;
             max-width: 200px;
             margin-bottom: 10px;
@@ -88,14 +89,6 @@ body {
             background-color: #FFCA28;
             color: #4B0E6D;
             transform: translateY(-3px);
-        }
-        .account-buttons {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-        }
-        .account-buttons.button {
-            margin-bottom: 10px;
         }
         #reader {
             position: relative;
@@ -116,19 +109,6 @@ body {
         #qr-highlight.success {
             border-color: green;
         }
-        .scan-options {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .scan-options.button {
-            background-color: #FFCA28;
-            color: #4B0E6D;
-        }
-        .scan-options.button:hover {
-            background-color: #4B0E6D;
-            color: white;
-        }
         #scan-result {
             font-size: 1.2em;
             font-weight: bold;
@@ -147,7 +127,24 @@ body {
                 margin-left: 10px;
             }
             .button {
-                font-size: 0.9em;
+                font-size: 1em;
+                padding: 10px 20px;
+            }
+        }
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1em;
+            }
+            .header img {
+                width: 25px;
+                height: 25px;
+            }
+            .header a {
+                font-size: 0.8em;
+                margin-left: 5px;
+            }
+            .button {
+                font-size: 0.8em;
                 padding: 8px 16px;
             }
         }
@@ -197,9 +194,15 @@ body {
             highlight.style.display = 'block';
             console.log(`Scan result: ${decodedText}`, decodedResult);
 
-            // Display the scanned result on the page
             const scanResultElement = document.getElementById('scan-result');
             scanResultElement.innerHTML = `<strong>Scanned Data:</strong> ${decodedText}`;
+
+            // Parse and evaluate the nutritional information
+            const nutritionalInfo = parseNutritionalInfo(decodedText);
+            const evaluation = evaluateNutritionalInfo(nutritionalInfo);
+
+            // Display the evaluation results
+            scanResultElement.innerHTML += `<br><strong>Evaluation:</strong> ${evaluation}`;
 
             setTimeout(() => {
                 highlight.style.display = 'none';
@@ -229,7 +232,7 @@ body {
 
         function startScanner() {
             const config = {
-                fps: 10,
+                fps: 20,
                 qrbox: { width: 250, height: 250 },
                 aspectRatio: 1.0,
                 disableFlip: false,
@@ -244,6 +247,27 @@ body {
                 }
                 onScanSuccess(decodedText, decodedResult);
             }, onScanError);
+        }
+
+        function parseNutritionalInfo(text) {
+            
+            return {
+                calories: 250,
+                fat: 10,
+                protein: 5,
+                carbohydrates: 30
+            };
+        }
+
+        function evaluateNutritionalInfo(info) {
+            
+            if (info.calories > 500) {
+                return 'High calorie content';
+            } else if (info.fat > 20) {
+                return 'High fat content';
+            } else {
+                return 'Nutritional content is within acceptable limits';
+            }
         }
 
         createHighlightBox();

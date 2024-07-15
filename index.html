@@ -7,12 +7,12 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #F5F5F5;
+            background: linear-gradient(135deg, #4B0E6D 0%, #FFCA28 100%);
             margin: 0;
             display: flex;
             flex-direction: column;
             height: 100vh;
-            overflow: hidden;
+            overflow: auto,hidden;
         }
         .header {
             background-color: #4B0E6D;
@@ -22,6 +22,7 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
         .header h1 {
             margin: 0;
@@ -35,15 +36,34 @@
             margin-right: 10px;
             border-radius: 50%;
         }
-        .header a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 1em;
-            transition: color 0.3s;
+        .header .account {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
         }
-        .header a:hover {
-            color: #FFCA28;
+        .header .account i {
+            margin-right: 10px;
+        }
+        .header .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            z-index: 1000;
+        }
+        .header .dropdown a {
+            display: block;
+            padding: 10px 20px;
+            color: #4B0E6D;
+            text-decoration: none;
+        }
+        .header .dropdown a:hover {
+            background-color: #F5F5F5;
         }
         .container {
             display: flex;
@@ -53,8 +73,10 @@
             padding: 10px;
         }
         .mobile-frame-container {
-            background: #fff;
-            border: 1px solid #ddd;
+            background: linear-gradient(135deg, #4B0E6D 0%, #FFCA28 100%);
+            border: 10px solid #ddd;
+            background-size: cover;
+            background-position: center;
             border-radius: 20px;
             padding: 20px;
             margin: 20px;
@@ -66,9 +88,9 @@
         .phone-frame {
             width: 100%;
             height: auto;
-            background: url("https://via.placeholder.com/375x667") no-repeat center center;
-            background-size: cover;
-            display: flex;
+            background-size: center;
+            background-position: center;
+            display: center;
             justify-content: center;
             align-items: center;
             border-radius: 20px;
@@ -78,9 +100,8 @@
             background-color: rgba(70, 0, 107, 0.9);
             color: white;
             text-align: center;
-            padding: 20px;
-            width: 100%;
-            border-radius: 20px;
+            width: 90%;
+            border-radius: 10px;
         }
         .headline {
             font-size: 2em;
@@ -170,8 +191,14 @@
             <img src="https://raw.githubusercontent.com/mohid147/pics/main/Ncal.jpg" alt="Ncal Logo">
             Ncal
         </h1>
-        <div>
-            <a href="#" onclick="toggleAccountButtons()">ACCOUNT</a>
+        <div class="account" onclick="toggleDropdown()">
+            <i class="fa fa-user"></i>
+            <span id="login-details">Login</span>
+            <div class="dropdown" id="account-dropdown">
+                <a href="profile.html">Profile</a>
+                <a href="settings.html">Settings</a>
+                <a href="logout.html">Logout</a>
+            </div>
         </div>
     </div>
     <div class="container">
@@ -194,17 +221,21 @@
     </div>
 
     <script>
-        function toggleAccountButtons() {
-            var accountButtons = document.getElementById('accountButtons');
-            if (accountButtons.style.display === 'none' || accountButtons.style.display === '') {
-                accountButtons.style.display = 'flex';
-            } else {
-                accountButtons.style.display = 'none';
-            }
-        }
-
         function navigateTo(url) {
             window.location.href = url;
+        }
+        function toggleDropdown() {
+            var dropdown = document.getElementById('account-dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+        window.onclick = function(event) {
+            if (!event.target.matches('.account') && !event.target.matches('.fa-user')) {
+                var dropdowns = document.getElementsByClassName('dropdown');
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    openDropdown.style.display = 'none';
+                }
+            }
         }
     </script>
 </body>

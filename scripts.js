@@ -1,9 +1,31 @@
-// Initialize ZXing QR code scanner
 let codeReader;
+const cameraSelect = document.getElementById('camera-select');
 
+// Initialize ZXing scanner
+function initializeScanner() {
+    codeReader = new ZXing.BrowserQRCodeReader();
+}
+
+// Populate camera options
+function populateCameraOptions() {
+    navigator.mediaDevices.enumerateDevices()
+        .then(devices => {
+            devices.forEach(device => {
+                if (device.kind === 'videoinput') {
+                    const option = document.createElement('option');
+                    option.value = device.deviceId;
+                    option.textContent = device.label || 'Camera ' + (cameraSelect.options.length + 1);
+                    cameraSelect.appendChild(option);
+                }
+            });
+        })
+        .catch(err => console.error('Error getting camera devices: ', err));
+}
+
+// Scan QR Code
 function scanQRCode() {
     if (!codeReader) {
-        codeReader = new ZXing.BrowserQRCodeReader();
+        initializeScanner();
     }
     codeReader.decodeFromInputVideoDevice(undefined, 'video')
         .then(result => {
@@ -20,11 +42,18 @@ function takePhoto() {
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const scanResultDiv = document.getElementById('scan-result');
+    const selectedCamera = cameraSelect.value;
 
-    navigator.mediaDevices.getUserMedia({ video: true })
+    if (!selectedCamera) {
+        alert('Please select a camera.');
+        return;
+    }
+
+    navigator.mediaDevices.getUserMedia({ video: { deviceId: selectedCamera } })
         .then(stream => {
             video.style.display = 'block';
             video.srcObject = stream;
+            video.play(); // Ensure video is playing
 
             // Take snapshot after 3 seconds
             setTimeout(() => {
@@ -51,8 +80,9 @@ function processImage(image) {
             const scanResultDiv = document.getElementById('scan-result');
             scanResultDiv.textContent = `Scanned Text:\n${text}`;
             const nutritionalInfo = parseNutritionalInfo(text);
+            populateTable(nutritionalInfo);
             const evaluation = evaluateNutritionalInfo(nutritionalInfo);
-            scanResultDiv.innerHTML += `<br><br>Evaluation:\n${evaluation}`;
+            document.getElementById('evaluation').textContent = `Evaluation:\n${evaluation}`;
         })
         .catch(err => {
             console.error('Error processing image: ', err);
@@ -98,6 +128,25 @@ function parseNutritionalInfo(text) {
     return nutritionalInfo;
 }
 
+// Populate Nutritional Information Table
+function populateTable(info) {
+    const tableBody = document.getElementById('result-table').getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    for (const [key, value] of Object.entries(info)) {
+        const row = tableBody.insertRow();
+        const cell1 = row.insertCell(0);
+        const cell2 = row.insertCell(1);
+        cell1.textContent = capitalizeFirstLetter(key.replace(/([A-Z])/g, ' $1'));
+        cell2.textContent = value;
+    }
+}
+
+// Capitalize the first letter of each word
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 // Evaluate Nutritional Information
 function evaluateNutritionalInfo(info) {
     let evaluation = '';
@@ -124,3 +173,9 @@ function evaluateNutritionalInfo(info) {
 
     return evaluation;
 }
+
+// Initialize and populate camera options on page load
+window.onload = function() {
+    initializeScanner();
+    populateCameraOptions();
+};

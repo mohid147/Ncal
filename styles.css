@@ -12,21 +12,37 @@ body {
 }
 
 .header {
-    background-color: #4B0E6D;
+    background: linear-gradient(to right, #4B0E6D, #7D3F8C); /* Gradient background */
     color: white;
-    padding: 10px 0;
+    padding: 15px 0;
     text-align: center;
+    position: relative;
 }
 
 .logo {
-    width: 50px;
+    width: 60px; /* Slightly larger logo for better visibility */
     vertical-align: middle;
+}
+
+.header h1 {
+    margin: 10px 0;
+    font-size: 2em; /* Larger font size for the heading */
+}
+
+nav {
+    margin-top: 10px;
 }
 
 nav a {
     color: white;
     text-decoration: none;
-    margin: 0 15px;
+    margin: 0 20px; /* Increased spacing between navigation links */
+    font-size: 1.1em; /* Slightly larger font size for better readability */
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #FFCA28; /* Color change on hover */
 }
 
 .button-group {
@@ -45,7 +61,7 @@ button {
 }
 
 button:hover {
-    background-color:#FFCA28 ;
+    background-color: #FFC107; /* Updated hover color for better contrast */
 }
 
 .result-box {
@@ -74,7 +90,7 @@ th, td {
 }
 
 th {
-    background-color:#4B0E6D;
+    background-color: #4B0E6D;
     color: white;
 }
 
@@ -93,4 +109,24 @@ td {
         width: 100%;
         margin: 10px 0;
     }
+}
+
+/* Loading spinner styles */
+.loading-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 8px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 8px solid #4B0E6D;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    display: none; /* Initially hidden */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

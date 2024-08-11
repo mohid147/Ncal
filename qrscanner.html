@@ -197,6 +197,15 @@
             const scanResultElement = document.getElementById('scan-result');
             scanResultElement.innerHTML = `<strong>Scanned Data:</strong> ${decodedText}`;
 
+            // Check if the scanned data is a URL
+            try {
+                const url = new URL(decodedText);
+                window.location.href = url.href;
+                return;
+            } catch (_) {
+                // If it's not a valid URL, continue with nutritional evaluation
+            }
+
             // Parse and evaluate the nutritional information
             const nutritionalInfo = parseNutritionalInfo(decodedText);
             const evaluation = evaluateNutritionalInfo(nutritionalInfo);
@@ -264,10 +273,9 @@
             } else {
                 return {
                     calories: 'Data not found',
-            fat: 'Data not found',
-            protein: 'Data not found',
-            carbohydrates: 'Data not found'
-                    
+                    fat: 'Data not found',
+                    protein: 'Data not found',
+                    carbohydrates: 'Data not found'
                 };
             }
         }

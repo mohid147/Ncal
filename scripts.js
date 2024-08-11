@@ -1,5 +1,6 @@
 let codeReader;
 const cameraSelect = document.getElementById('camera-select');
+const loadingSpinner = document.getElementById('loading'); // Get the loading spinner element
 
 // Initialize ZXing scanner
 function initializeScanner() {
@@ -27,13 +28,17 @@ function scanQRCode() {
     if (!codeReader) {
         initializeScanner();
     }
+    loadingSpinner.style.display = 'block'; // Show loading spinner
+
     codeReader.decodeFromInputVideoDevice(undefined, 'video')
         .then(result => {
             document.getElementById('scan-result').textContent = `QR Code: ${result.text}`;
+            loadingSpinner.style.display = 'none'; // Hide loading spinner
         })
         .catch(err => {
             console.error('Error scanning QR code: ', err);
             document.getElementById('scan-result').textContent = 'Error scanning QR code.';
+            loadingSpinner.style.display = 'none'; // Hide loading spinner
         });
 }
 
@@ -75,6 +80,8 @@ function takePhoto() {
 
 // Process Image with Tesseract.js
 function processImage(image) {
+    loadingSpinner.style.display = 'block'; // Show loading spinner
+
     Tesseract.recognize(image, 'eng')
         .then(({ data: { text } }) => {
             const scanResultDiv = document.getElementById('scan-result');
@@ -83,10 +90,12 @@ function processImage(image) {
             populateTable(nutritionalInfo);
             const evaluation = evaluateNutritionalInfo(nutritionalInfo);
             document.getElementById('evaluation').textContent = `Evaluation:\n${evaluation}`;
+            loadingSpinner.style.display = 'none'; // Hide loading spinner
         })
         .catch(err => {
             console.error('Error processing image: ', err);
             document.getElementById('scan-result').textContent = 'Error processing image.';
+            loadingSpinner.style.display = 'none'; // Hide loading spinner
         });
 }
 
@@ -152,19 +161,19 @@ function evaluateNutritionalInfo(info) {
     let evaluation = '';
 
     if (info.calories !== 'Not found' && info.calories > 200) {
-        evaluation += 'This product has a high calorie content. ';
+        evaluation += 'High calorie content. ';
     }
 
     if (info.totalFat !== 'Not found' && info.totalFat > 10) {
-        evaluation += 'This product is high in fat. ';
+        evaluation += 'High fat content. ';
     }
 
     if (info.sodium !== 'Not found' && info.sodium > 150) {
-        evaluation += 'This product has a high sodium content. ';
+        evaluation += 'High sodium content. ';
     }
 
     if (info.addedSugars !== 'Not found' && info.addedSugars > 10) {
-        evaluation += 'This product contains a lot of added sugars. ';
+        evaluation += 'High added sugars. ';
     }
 
     if (evaluation === '') {
